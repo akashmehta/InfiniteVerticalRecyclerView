@@ -11,29 +11,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val imageList = ArrayList<Drawable?>()
-    private val handler = Handler()
-    private var runnable: Runnable? = null
-    private var position = 0
+    private val itemList = ArrayList<UserItemModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        imageList.add(ContextCompat.getDrawable(this, R.drawable.image1))
-        imageList.add(ContextCompat.getDrawable(this, R.drawable.image2))
-        imageList.add(ContextCompat.getDrawable(this, R.drawable.image3))
-        imageList.add(ContextCompat.getDrawable(this, R.drawable.image4))
-        imageList.add(ContextCompat.getDrawable(this, R.drawable.image5))
-
-        rvContent.layoutManager = LinearLayoutManager(this)
-        rvContent.adapter = ScrollingImageRecyclerAdapter(imageList)
-        runnable = Runnable {
-            rvContent.scrollBy(0, 100)
-            position++
-            if (position < 30) {
-                handler.postDelayed(runnable, 50)
-            }
+        repeat((0 until 4).count()) {
+            val imageList = ArrayList<Drawable?>()
+            imageList.add(ContextCompat.getDrawable(this, R.drawable.image1))
+            imageList.add(ContextCompat.getDrawable(this, R.drawable.image2))
+            imageList.add(ContextCompat.getDrawable(this, R.drawable.image3))
+            imageList.add(ContextCompat.getDrawable(this, R.drawable.image4))
+            imageList.add(ContextCompat.getDrawable(this, R.drawable.image5))
+            itemList.add(UserItemModel(imageList = imageList))
         }
-        handler.postDelayed(runnable, 50)
+
+
+        rvContent.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL, false)
+        rvContent.adapter = UserListRecyclerAdapter(itemList)
     }
 }
